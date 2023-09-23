@@ -3,22 +3,20 @@ using product_api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<IProductRepository, InMemoryProductRepository>();
 
 var app = builder.Build();
 app.UseHttpsRedirection();
 
-app.Map("/products/", () =>
+app.Map("/products/", (IProductRepository productRepository) =>
 {
-    var productRepository = new ProductRepository();
-    return productRepository.Get();
+    return productRepository.getProducts();
 });
 
-app.Map("/products/{id}", (Guid id) =>
-{
-    var productRepository = new ProductRepository();
-    var product = productRepository.GetById(id);
-
-    return (product == null) ? null : product;
+app.Map("/product/{id}", (IProductRepository productRepository, Guid id) =>
+{ 
+    var product = productRepository.GetProductById(id);
+    return product is not null ? Results.Ok(product) : Results.NotFound();
 });
 
 app.Run();

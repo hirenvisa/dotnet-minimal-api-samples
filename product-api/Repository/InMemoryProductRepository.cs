@@ -2,10 +2,11 @@
 
 namespace product_api.Repository;
 
-public class ProductRepository
+public class InMemoryProductRepository : IProductRepository
 {
     private static List<Product> _products = new List<Product>();
-    public List<Product> Get()
+
+    public InMemoryProductRepository()
     {
         _products = new List<Product>()
         {
@@ -13,12 +14,15 @@ public class ProductRepository
             new Product(Guid.NewGuid(), "Product 2", 3),
             new Product(Guid.NewGuid(), "Product 3", 5),
         };
+    }
 
+    public List<Product> getProducts()
+    {
         return _products;
     }
 
-    internal Product? GetById(Guid id)
-    { 
-        return _products.FirstOrDefault(q => q.Id == id);    
+    public Product? GetProductById(Guid id)
+    {
+        return _products.FirstOrDefault(q => q.Id == id);
     }
-}
+ }
