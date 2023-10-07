@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Customers.API/customerdb
+/Customers.API/customerdb-shm
+/Customers.API/customerdb-wal
